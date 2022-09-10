@@ -45,7 +45,7 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
               tabs: [
                 Text("StickyHeader"),
                 Text("WithBuilder"),
-                Text(""),
+                Text("BuilderAndOpacity"),
               ],
             ),
           ),
@@ -55,7 +55,11 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
               if (snapshot.hasData) {
                 final images = snapshot.data!;
                 return TabBarView(
-                  children: [stickyHeader(images), stickyHeaderBuilder(images)],
+                  children: [
+                    stickyHeader(images),
+                    stickyHeaderBuilder(images),
+                    stickyHeaderBuilderWithOpacty(images)
+                  ],
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -64,6 +68,32 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
             },
           )),
     );
+  }
+
+  ListView stickyHeaderBuilderWithOpacty(List<model.Image> images) {
+    return ListView.builder(
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          final image = images[index];
+          return StickyHeaderBuilder(
+            overlapHeaders: true,
+            builder: (context, stuckAmount) {
+              stuckAmount = 1 - stuckAmount.clamp(0, 1);
+              return Container(
+                width: double.infinity,
+                color: Colors.blueGrey.withOpacity(0.5 + stuckAmount * 0.5),
+                padding: const EdgeInsets.all(16),
+                child: Text(image.description ?? "default "),
+              );
+            },
+            content: Image.network(
+              image.raw ?? defaultImageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 200,
+            ),
+          );
+        });
   }
 
   ListView stickyHeaderBuilder(List<model.Image> images) {
