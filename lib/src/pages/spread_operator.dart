@@ -22,7 +22,8 @@ class _SpreadOperatorPageState extends State<SpreadOperatorPage> {
           padding: const EdgeInsets.all(24),
           children: [
             const Text('Item 1'),
-            Column(children: items,),
+            // Column(children: items,),
+            ...items,
             const Text('Item 4'),
           ],
         ),
