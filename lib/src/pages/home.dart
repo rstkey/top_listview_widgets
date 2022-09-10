@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:top_listview_widgets/constants.dart';
+import 'package:top_listview_widgets/src/pages/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,9 +19,13 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
           itemCount: 13,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final item = pageItems[index]["pageName"] as String;
+            final route = pageItems[index]["route"] as Widget;
+
             return ListTile(
               title: customCard(index, item),
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => route)),
             );
           }),
     );
@@ -33,7 +38,10 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(15.0),
         child: Text(
           item,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15,),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+          ),
         ),
       ),
     );
