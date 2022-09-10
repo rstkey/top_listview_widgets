@@ -16,6 +16,7 @@ class SingleChildScrollViewPage extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.arrow_forward)),
               Tab(icon: Icon(Icons.arrow_downward_sharp)),
+              Tab(icon: Icon(Icons.space_bar)),
             ],
           ),
         ),
@@ -23,6 +24,7 @@ class SingleChildScrollViewPage extends StatelessWidget {
           children: [
             horizontal(context),
             vertical(context),
+            spaceEvenly(),
           ],
         ),
       ),
@@ -30,28 +32,62 @@ class SingleChildScrollViewPage extends StatelessWidget {
   }
 }
 
+spaceEvenly() {
+  return LayoutBuilder(
+    builder: (context, constraints) => SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: IntrinsicHeight(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              customContainer(
+                'Item 1',
+                Colors.red[100],
+              ),
+              customContainer(
+                'Item 2',
+                Colors.blue[100],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
 horizontal(context) {
   return SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(
       children: [
-        customContainer('Item 1', Colors.red[100], context),
-        customContainer('Item 2', Colors.blue[100], context),
-        customContainer('Item 3', Colors.green[100], context),
+        customContainer(
+          'Item 1',
+          Colors.red[100],
+        ),
+        customContainer(
+          'Item 2',
+          Colors.blue[100],
+        ),
+        customContainer(
+          'Item 3',
+          Colors.green[100],
+        ),
       ],
     ),
   );
 }
 
-Container customContainer(text, color, context,
-    {double? height, bool? isVertical}) {
+Container customContainer(text, color, {double? height}) {
   return Container(
     alignment: Alignment.center,
     color: color,
-    height: !(isVertical ?? false)
-        ? MediaQuery.of(context).size.height
-        : height ?? 200,
-    width: isVertical ?? false ? MediaQuery.of(context).size.width : 200,
+    height: height ?? 200,
+    width: 200,
     child: Text(text),
   );
 }
@@ -60,11 +96,18 @@ vertical(context) {
   return SingleChildScrollView(
     child: Column(
       children: [
-        customContainer('Item 1', Colors.red[100], context, isVertical: true),
-        customContainer('Item 2', Colors.blue[100], context,
-            height: 500, isVertical: true),
-        customContainer('Item 3', Colors.purple[100], context,
-            height: 150, isVertical: true),
+        customContainer(
+          'Item 1',
+          Colors.red[100],
+        ),
+        customContainer(
+          'Item 2',
+          Colors.blue[100],
+        ),
+        customContainer(
+          'Item 3',
+          Colors.purple[100],
+        ),
       ],
     ),
   );
