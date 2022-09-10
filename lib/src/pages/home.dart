@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("TOP 13 LISTVIEW WIDGETS"),
       ),
       body: ListView.builder(
-          itemCount: 13,
+          itemCount: pageItems.length,
           itemBuilder: (context, index) {
             final item = pageItems[index]["pageName"] as String;
             final route = pageItems[index]["route"] as Widget;
