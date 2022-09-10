@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class PullToRefreshPage extends StatefulWidget {
   const PullToRefreshPage({Key? key, required this.title}) : super(key: key);
@@ -12,9 +15,19 @@ class _PullToRefreshPageState extends State<PullToRefreshPage> {
   List<String> items = ["dlfksjf", "lkodsjıf", "kfjkd", "ksdjh"];
 
   Future refresh() async {
-    setState(() {
-      items = ["1", "2", "3", "4"];
-    });
+    final url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List newItems = json.decode(response.body);
+
+      setState(() {
+        items = newItems.map<String>((item) {
+          final number = item['id'];
+          return 'Item $number';
+        }).toList();
+      });
+    }
   }
 
   @override
