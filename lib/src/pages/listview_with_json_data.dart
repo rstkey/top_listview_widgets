@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:top_listview_widgets/src/models/Book.dart';
+import 'package:top_listview_widgets/src/models/book.dart';
 
 class ListViewWithJsonDataPage extends StatefulWidget {
   const ListViewWithJsonDataPage({Key? key, required this.title})
