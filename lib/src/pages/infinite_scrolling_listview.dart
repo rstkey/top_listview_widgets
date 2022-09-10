@@ -16,11 +16,14 @@ class InfiniteScrollingListViewPage extends StatefulWidget {
 class _InfiniteScrollingListViewPageState
     extends State<InfiniteScrollingListViewPage> {
   final controller = ScrollController();
-  List<String> items = List.generate(15, (index) => 'Item ${index + 1}');
+  // List<String> items = List.generate(15, (index) => 'Item ${index + 1}');
+  List<String> items=[];
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
+    fetch();
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
         fetch();
@@ -29,13 +32,16 @@ class _InfiniteScrollingListViewPageState
   }
 
   Future fetch() async {
-    final url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    const limit = 25;
+    final url = Uri.parse(
+        "https://jsonplaceholder.typicode.com/posts?_limit=$limit&_page=$page");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final List newItems = json.decode(response.body);
 
       setState(() {
+        page++;
         items.addAll(newItems.map<String>((item) {
           final number = item['id'];
           return 'Item $number';
