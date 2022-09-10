@@ -43,10 +43,28 @@ List<Map<String, Object>> pageItems = [
     "pageName": "Sticky Header",
     "route": const StickyHeaderPage(title: "Sticky Header")
   },
-  {"pageName": "Search & Filter ListView", "route": const SearchFilterListViewPage(title: "Search & Filter ListView")},
-  {"pageName": "Reorderable ListView", "route": const ReorderableListViewPage(title: "Reorderable ListView")},
-  {"pageName": "ListView With Navigator", "route": const ListViewWithNavigatorPage(title: "ListView With Navigator")},
-  {"pageName": "Horizontal ListView", "route": const HorizontalListViewPage(title: "Horizontal ListView")},
-  {"pageName": "Vertical ListView", "route": const VerticalListViewPage(title:"Vertical ListView" )},
-  {"pageName": "Grouped ListView", "route": const GroupedListViewPage(title: "Grouped ListView")},
+  {
+    "pageName": "Search & Filter ListView",
+    "route": const SearchFilterListViewPage(title: "Search & Filter ListView")
+  },
+  {
+    "pageName": "Reorderable ListView",
+    "route": const ReorderableListViewPage(title: "Reorderable ListView")
+  },
+  {
+    "pageName": "ListView With Navigator",
+    "route": const ListViewWithNavigatorPage(title: "ListView With Navigator")
+  },
+  {
+    "pageName": "Horizontal ListView",
+    "route": const HorizontalListViewPage(title: "Horizontal ListView")
+  },
+  {
+    "pageName": "Vertical ListView",
+    "route": const VerticalListViewPage(title: "Vertical ListView")
+  },
+  {
+    "pageName": "Grouped ListView",
+    "route": const GroupedListViewPage(title: "Grouped ListView")
+  },
 ];
