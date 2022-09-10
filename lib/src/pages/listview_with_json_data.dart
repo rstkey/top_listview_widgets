@@ -47,6 +47,7 @@ class _ListViewWithJsonDataPageState extends State<ListViewWithJsonDataPage> {
             } else if (snapshot.hasError) {
               return Text('😢 ${snapshot.error}');
             }
+            return const SizedBox();
           },
         ),
       ),
