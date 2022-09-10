@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class InfiniteScrollingListViewPage extends StatefulWidget {
   const InfiniteScrollingListViewPage({Key? key, required this.title})
@@ -26,9 +29,19 @@ class _InfiniteScrollingListViewPageState
   }
 
   Future fetch() async {
-    setState(() {
-      items.addAll(["item a", "item b", "item c", "item d"]);
-    });
+    final url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List newItems = json.decode(response.body);
+
+      setState(() {
+        items.addAll(newItems.map<String>((item) {
+          final number = item['id'];
+          return 'Item $number';
+        }).toList());
+      });
+    }
   }
 
   @override
