@@ -28,12 +28,12 @@ class _HomePageState extends State<HomePage> {
 
   Card customCard(int index, String item) {
     return Card(
-      color: (index % 2 == 0) ? Colors.green[100] : Colors.purple[100],
+      color: (index % 2 == 0) ? Colors.blueGrey[100] : Colors.blueGrey[50],
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Text(
           item,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 15,),
         ),
       ),
     );
