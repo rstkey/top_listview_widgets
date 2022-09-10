@@ -17,7 +17,8 @@ class _InfiniteScrollingListViewPageState
     extends State<InfiniteScrollingListViewPage> {
   final controller = ScrollController();
   // List<String> items = List.generate(15, (index) => 'Item ${index + 1}');
-  List<String> items=[];
+  bool hasMore = true;
+  List<String> items = [];
   int page = 1;
 
   @override
@@ -42,6 +43,11 @@ class _InfiniteScrollingListViewPageState
 
       setState(() {
         page++;
+
+        if (newItems.length < limit) {
+          hasMore = false;
+        }
+
         items.addAll(newItems.map<String>((item) {
           final number = item['id'];
           return 'Item $number';
@@ -73,10 +79,12 @@ class _InfiniteScrollingListViewPageState
                 title: Text(item),
               );
             } else {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 32),
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: hasMore
+                      ? const CircularProgressIndicator()
+                      : const Text("Görüntülenecek veri yok"),
                 ),
               );
             }
