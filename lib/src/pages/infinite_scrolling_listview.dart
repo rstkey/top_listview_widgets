@@ -12,7 +12,24 @@ class InfiniteScrollingListViewPage extends StatefulWidget {
 
 class _InfiniteScrollingListViewPageState
     extends State<InfiniteScrollingListViewPage> {
+  final controller = ScrollController();
   List<String> items = List.generate(15, (index) => 'Item ${index + 1}');
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        fetch();
+      }
+    });
+  }
+
+  Future fetch() async {
+    setState(() {
+      items.addAll(["item a", "item b", "item c", "item d"]);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +38,8 @@ class _InfiniteScrollingListViewPageState
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          padding:const EdgeInsets.all(8),
+          controller: controller,
+          padding: const EdgeInsets.all(8),
           itemCount: items.length + 1,
           itemBuilder: (context, index) {
             if (index < items.length) {
@@ -29,8 +47,13 @@ class _InfiniteScrollingListViewPageState
               return ListTile(
                 title: Text(item),
               );
-            }else{
-              return const Padding(padding: EdgeInsets.symmetric(vertical: 32),child: Center(child: CircularProgressIndicator(),),);
+            } else {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
           }),
     );
