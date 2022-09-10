@@ -35,25 +35,38 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: FutureBuilder<List<model.Image>>(
-          future: getImages(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final images = snapshot.data!;
-              return buildListView(images);
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            return const SizedBox();
-          },
-        ));
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+            bottom: const TabBar(
+              labelPadding: EdgeInsets.all(8.0),
+              tabs: [
+                Text("StickyHeader"),
+                Text("WithBuilder"),
+                Text(""),
+              ],
+            ),
+          ),
+          body: FutureBuilder<List<model.Image>>(
+            future: getImages(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final images = snapshot.data!;
+                return TabBarView(
+                  children: [stickyHeader(images), stickyHeaderBuilder(images)],
+                );
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              return const SizedBox();
+            },
+          )),
+    );
   }
 
-  ListView buildListView(List<model.Image> images) {
+  ListView stickyHeaderBuilder(List<model.Image> images) {
     return ListView.builder(
         itemCount: images.length,
         itemBuilder: (context, index) {
@@ -74,6 +87,28 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
+            ),
+          );
+        });
+  }
+
+  ListView stickyHeader(List<model.Image> images) {
+    return ListView.builder(
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          final image = images[index];
+          return StickyHeader(
+            content: Image.network(
+              image.raw ?? defaultImageUrl,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 200,
+            ),
+            header: Container(
+              width: double.infinity,
+              color: Colors.blueGrey[50],
+              padding: const EdgeInsets.all(16),
+              child: Text(image.description ?? "default "),
             ),
           );
         });
