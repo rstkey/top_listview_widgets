@@ -12,8 +12,8 @@ class ListViewWithJsonDataPage extends StatefulWidget {
 }
 
 class _ListViewWithJsonDataPageState extends State<ListViewWithJsonDataPage> {
-  List<Book> books = getBooks();
-  static List<Book> getBooks() {
+  Future<List<Book>> books = getBooks();
+  static Future<List<Book>> getBooks() async {
     const data = [
       {
         "title": "Fyunli (A Garhwali Haiku)",
@@ -53,7 +53,13 @@ class _ListViewWithJsonDataPageState extends State<ListViewWithJsonDataPage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: buildBooks(books),
+        child: FutureBuilder<List<Book>>(
+          future: books,
+          builder: (context, snapshot) {
+            final books = snapshot.data!;
+            return buildBooks(books);
+          },
+        ),
       ),
     );
   }
