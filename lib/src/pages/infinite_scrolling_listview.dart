@@ -20,6 +20,7 @@ class _InfiniteScrollingListViewPageState
   bool hasMore = true;
   List<String> items = [];
   int page = 1;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -33,6 +34,8 @@ class _InfiniteScrollingListViewPageState
   }
 
   Future fetch() async {
+    if (isLoading) return;
+    isLoading = true;
     const limit = 25;
     final url = Uri.parse(
         "https://jsonplaceholder.typicode.com/posts?_limit=$limit&_page=$page");
@@ -43,7 +46,7 @@ class _InfiniteScrollingListViewPageState
 
       setState(() {
         page++;
-
+        isLoading = false;
         if (newItems.length < limit) {
           hasMore = false;
         }
@@ -62,33 +65,47 @@ class _InfiniteScrollingListViewPageState
     super.dispose();
   }
 
+  Future refresh() async {
+    //ekranı yukarıdan aşağı doğru kaydırınca verileri ilk haline getirir.
+    setState(() {
+      isLoading = false;
+      hasMore = true;
+      page = 0;
+      items.clear();
+    });
+    fetch();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-          controller: controller,
-          padding: const EdgeInsets.all(8),
-          itemCount: items.length + 1,
-          itemBuilder: (context, index) {
-            if (index < items.length) {
-              final item = items[index];
-              return ListTile(
-                title: Text(item),
-              );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Center(
-                  child: hasMore
-                      ? const CircularProgressIndicator()
-                      : const Text("Görüntülenecek veri yok"),
-                ),
-              );
-            }
-          }),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: ListView.builder(
+            controller: controller,
+            padding: const EdgeInsets.all(8),
+            itemCount: items.length + 1,
+            itemBuilder: (context, index) {
+              if (index < items.length) {
+                final item = items[index];
+                return ListTile(
+                  title: Text(item),
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: Center(
+                    child: hasMore
+                        ? const CircularProgressIndicator()
+                        : const Text("Görüntülenecek veri yok"),
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 }
