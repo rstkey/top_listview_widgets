@@ -58,18 +58,22 @@ class _StickyHeaderPageState extends State<StickyHeaderPage> {
         itemCount: images.length,
         itemBuilder: (context, index) {
           final image = images[index];
-          return StickyHeader(
+          return StickyHeaderBuilder(
+            builder: (context, stuckAmount) {
+              stuckAmount = 1 - stuckAmount.clamp(0, 1);
+              return Container(
+                width: double.infinity,
+                color: Color.lerp(
+                    Colors.blueGrey[50], Colors.blueGrey[200], stuckAmount),
+                padding: const EdgeInsets.all(16),
+                child: Text(image.description ?? "default "),
+              );
+            },
             content: Image.network(
               image.raw ?? defaultImageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
-            ),
-            header: Container(
-              width: double.infinity,
-              color: Colors.blueGrey[50],
-              padding: const EdgeInsets.all(16),
-              child: Text(image.description ?? "default "),
             ),
           );
         });
