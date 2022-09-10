@@ -39,8 +39,14 @@ class _ListViewWithJsonDataPageState extends State<ListViewWithJsonDataPage> {
         child: FutureBuilder<List<Book>>(
           future: books,
           builder: (context, snapshot) {
-            final books = snapshot.data!;
-            return buildBooks(books);
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasData) {
+              final books = snapshot.data!;
+              return buildBooks(books);
+            } else if (snapshot.hasError) {
+              return Text('😢 ${snapshot.error}');
+            }
           },
         ),
       ),
