@@ -11,24 +11,25 @@ class NestedColumnsAndListViewsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 150,
-            color: Colors.red,
-            child: const Center(
-              child: Text('Some Widgets'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 150,
+              color: Colors.red,
+              child: const Center(
+                child: Text('Some Widgets'),
+              ),
             ),
-          ),
-          Flexible(
-            child: ListView.builder(
+            ListView.builder(
+                primary: false,//listview'in scroll unu geçersiz kılma
                 itemCount: 30,
-                shrinkWrap: true,
+                shrinkWrap: true,//limit height
                 itemBuilder: (context, index) => ListTile(
                       title: Text('Item ${index + 1}'),
-                    )),
-          )
-        ],
+                    ))
+          ],
+        ),
       ),
     );
   }
