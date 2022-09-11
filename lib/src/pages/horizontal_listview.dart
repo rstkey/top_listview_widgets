@@ -46,7 +46,7 @@ class _HorizontalListViewPageState extends State<HorizontalListViewPage> {
           if (snapshot.hasData) {
             final images = snapshot.data!;
             return SizedBox(
-              height: 300,
+              height: 150,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: images.length,
@@ -55,7 +55,7 @@ class _HorizontalListViewPageState extends State<HorizontalListViewPage> {
                       ),
                   itemBuilder: (context, index) {
                     final image = images[index];
-                    return Image.network(image.raw ?? defaultImageUrl, fit: BoxFit.fill,);
+                    return ClipRRect(borderRadius:BorderRadius.circular(20) , child: Image.network(image.raw ?? defaultImageUrl, fit: BoxFit.cover,width: 150,));
                   }),
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
