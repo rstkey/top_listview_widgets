@@ -49,23 +49,29 @@ class _GroupedListViewPageState extends State<GroupedListViewPage> {
         title: Text(widget.title),
       ),
       body: GroupedListView<dynamic, String>(
-        useStickyGroupSeparators: true,//yukarıya sabitler
+        useStickyGroupSeparators: true, //yukarıya sabitler
         elements: elements,
         groupBy: (element) => element['group'],
         groupSeparatorBuilder: (value) => Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(25),
-          color: Colors.blueGrey[100],
-          child: Text(value),
+          padding: const EdgeInsets.all(20),
+          color: Colors.blueGrey,
+          child: Text(
+            value,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white),
+          ),
         ),
         itemBuilder: (context, element) => Card(
-          elevation: 4,
+          elevation: 2,
           child: ListTile(
-            contentPadding: const EdgeInsets.all(12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             leading: const Icon(
               Icons.account_circle,
             ),
-            title: Text(element['name'],),
+            title: Text(
+              element['name'],
+            ),
           ),
         ),
       ),
