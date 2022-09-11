@@ -50,6 +50,8 @@ class _GroupedListViewPageState extends State<GroupedListViewPage> {
       ),
       body: GroupedListView<dynamic, String>(
         useStickyGroupSeparators: true, //yukarıya sabitler
+        itemComparator: (item1, item2) =>
+            item1['name'].compareTo(item2['name']),
         elements: elements,
         groupBy: (element) => element['group'],
         groupSeparatorBuilder: (value) => Container(
