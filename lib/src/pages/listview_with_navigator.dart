@@ -17,6 +17,7 @@ class ListViewWithNavigatorPage extends StatefulWidget {
 }
 
 class _ListViewWithNavigatorPageState extends State<ListViewWithNavigatorPage> {
+
   late Future<List<model.Image>> images;
   final String defaultImageUrl =
       'https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80';
