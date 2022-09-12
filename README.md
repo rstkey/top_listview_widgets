@@ -1,5 +1,6 @@
-# 13 ListView Widgets 🦋
+Note: To run the application, create a urls.dart file in the bin directory and define your own unsplash clientId variable.
 
+# 13 ListView Widgets 🦋
 1. Pull To Refresh
 2. Infinite Scrolling ListView
 3. Spread Operator
@@ -24,3 +25,4 @@
 
 
 source: https://www.youtube.com/watch?v=L3NJkkOC4Ko 
+
